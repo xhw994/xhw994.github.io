@@ -4,10 +4,10 @@
 
 # Site
 title: Xegnal
-subtitle:
-description: 
-keywords:
-author: XinHao Wang
+subtitle: 昨日的因 今日的果
+description: Xeon的个人博客
+keywords: Xegnal,coding,编程
+author: Xeon
 language: zh-CN
 timezone: Canada/Pacific
 
@@ -80,5 +80,5 @@ theme: fexo
 deploy:
   type: git
   repo: https://github.com/xhw994/xhw994.github.io
-  branch: publish
+  branch: gh-pages
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
