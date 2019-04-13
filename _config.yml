@@ -78,4 +78,7 @@ theme: fexo
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: https://github.com/xhw994/xhw994.github.io
+  branch: publish
+  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
