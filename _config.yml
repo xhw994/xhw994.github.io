@@ -80,5 +80,5 @@ theme: fexo
 deploy:
   type: git
   repo: https://github.com/xhw994/xhw994.github.io
-  branch: gh-pages
+  branch: master
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
