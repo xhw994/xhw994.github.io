@@ -221,7 +221,7 @@ project:
     name: neu
     url: https://github.com/xhw994/neu
     intro: Front-end blog compatiable with Niente, using Nuxt.js 2. 
-    - type: personal
+  - type: personal
     name: YVR-Weather-Prediction
     url: https://github.com/xhw994/YVR-Weather-Prediction
     intro: Predict weather from images of YVR airport.
