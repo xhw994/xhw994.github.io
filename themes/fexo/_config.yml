@@ -208,12 +208,11 @@ link:
     url: 
     avatar: https://66.media.tumblr.com/77e97058b749cf78bea0a3a9488a367f/tumblr_inline_nuhpv7cLm21sj7j3d_1280.png
 
-
 project:
   - type: personal
-    name: YVR-Weather-Prediction
-    url: https://github.com/xhw994/YVR-Weather-Prediction
-    intro: Predict weather from images of YVR airport.
+    name: Bangumi.Api.Core
+    url: https://github.com/xhw994/Bangumi.Api.Core
+    intro: .NET Core 2.0 SDK for Bangumi API (https://api.bgm.tv/).
   - type: personal
     name: Niente
     url: https://github.com/xhw994/Niente
@@ -222,3 +221,7 @@ project:
     name: neu
     url: https://github.com/xhw994/neu
     intro: Front-end blog compatiable with Niente, using Nuxt.js 2. 
+    - type: personal
+    name: YVR-Weather-Prediction
+    url: https://github.com/xhw994/YVR-Weather-Prediction
+    intro: Predict weather from images of YVR airport.
