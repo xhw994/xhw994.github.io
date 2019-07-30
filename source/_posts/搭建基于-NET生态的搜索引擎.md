@@ -19,16 +19,99 @@ tags:
 
 出于实验目的，这次我使用了.NET Core 2.0而不是一些包所声明的.NET 4.6.1。
 
-首先创建一个空的.NET Core控制台程序，然后在NuGet包管理器中安装Abot。注意不是AbotX，那是Abot的商业版本。
+首先创建一个空的.NET Core控制台程序，然后在NuGet包管理器中安装Abot（[源代码](https://github.com/sjdirect/abot)）。注意不是AbotX，那是Abot的商业版本。
 <center>![](/images/201907/1.png)</center>
 
 因为我使用的不是Abot所要求的.NET 4.6.1，我收到了如下的警示，无视。
 <center>![](/images/201907/2.png)</center>
 
-##
+## 配置
+Abot提供了三种不同的配置方法：配置文件、配置对象、或是两者混用。
+
+### 使用配置文件
+此方式适用于.NET及ASP.NET环境下的程序。如果使用.NET Core则必须使用配置类。
+
+在`app.config`或是`web.config`文件中加入如下字段，并进行相应的调整。
+
+{% codeblock lang:XML %}
+<configuration>
+  <configSections>
+    <section name="abot" type="Abot.Core.AbotConfigurationSectionHandler, Abot"/>
+  </configSections>
+
+  <abot>
+    <crawlBehavior 
+      maxConcurrentThreads="10" 
+      maxPagesToCrawl="1000" 
+      maxPagesToCrawlPerDomain="0" 
+      maxPageSizeInBytes="0"
+      userAgentString="Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko" 
+      crawlTimeoutSeconds="0" 
+      downloadableContentTypes="text/html, text/plain" 
+      isUriRecrawlingEnabled="false" 
+      isExternalPageCrawlingEnabled="false" 
+      isExternalPageLinksCrawlingEnabled="false"
+      httpServicePointConnectionLimit="200"  
+      httpRequestTimeoutInSeconds="15" 
+      httpRequestMaxAutoRedirects="7" 
+      isHttpRequestAutoRedirectsEnabled="true" 
+      isHttpRequestAutomaticDecompressionEnabled="false"
+      isSendingCookiesEnabled="false"
+      isSslCertificateValidationEnabled="false"
+      isRespectUrlNamedAnchorOrHashbangEnabled="false"
+      minAvailableMemoryRequiredInMb="0"
+      maxMemoryUsageInMb="0"
+      maxMemoryUsageCacheTimeInSeconds="0"
+      maxCrawlDepth="1000"
+	  maxLinksPerPage="1000"
+      isForcedLinkParsingEnabled="false"
+      maxRetryCount="0"
+      minRetryDelayInMilliseconds="0"
+      />
+    <authorization
+      isAlwaysLogin="false"
+      loginUser=""
+      loginPassword="" />	  
+    <politeness 
+      isRespectRobotsDotTextEnabled="false"
+      isRespectMetaRobotsNoFollowEnabled="false"
+	  isRespectHttpXRobotsTagHeaderNoFollowEnabled="false"
+      isRespectAnchorRelNoFollowEnabled="false"
+      isIgnoreRobotsDotTextIfRootDisallowedEnabled="false"
+      robotsDotTextUserAgentString="abot"
+      maxRobotsDotTextCrawlDelayInSeconds="5" 
+      minCrawlDelayPerDomainMilliSeconds="0"/>
+    <extensionValues>
+      <add key="key1" value="value1"/>
+      <add key="key2" value="value2"/>
+    </extensionValues>
+  </abot>  
+</configuration>    
+{% endcodeblock %}
+
+### 使用配置对象
+创建一个`Abot.Poco.CrawlConfiguration`对象并修改其中的内容:
+
+{% codeblock lang:C# %}
+CrawlConfiguration crawlConfig = new CrawlConfiguration
+{
+    CrawlTimeoutSeconds = 100,
+    MaxConcurrentThreads = 10,
+    MaxPagesToCrawl = 1000,
+};
+{% endcodeblock %}
+
+### 配置文件与配置对象混用
+
+{% codeblock lang:C# %}
+CrawlConfiguration crawlConfig = AbotConfigurationSectionHandler.LoadFromXml().Convert();
+crawlConfig.MaxPagesToCrawl = 0; // 无抓取上限
+{% endcodeblock %}
+
+## 上手
 新建一个Crawler类，并声明一个`PoliteWebCrawler`对象。在Abot框架中，`PoliteWebCrawler`是一切指令和组件的入口。是的，组件，Abot提供了一套高度可自定义的插件接口，它们都可以通过导入`PoliteWebCrawler`的构造函数来使用。这一点后面会详解。
 
-{% codeblock lang:C# 构造函数 %}
+{% codeblock lang:C# %}
 using Abot.Crawler;
 using System;
 
@@ -42,10 +125,88 @@ namespace SampleSearchEngine
         public Crawler()
         {
             _crawler = new PoliteWebCrawler(); // 简单构造
-            // _crawler = new PoliteWebCrawler(null, null, null, null, null, null, null, null, null); // 复杂构造
+            // _crawler = new PoliteWebCrawler(crawlConfig, null, null, null, null, null, null, null, null); // 复杂构造
         }
     }
 }
 {% endcodeblock %}
 
-如代码所示，可以看出`PoliteWebCrawler`有简单和复杂的构造函数。在复杂函数的参数全为`null`时两者相同，都是使用Abot默认的构建方法。如果有自定义的插件，我可以在调用复杂构造函数时引入，但不能在创建对象后替换。
+如代码所示，可以看出`PoliteWebCrawler`有简单和复杂的构造函数。在复杂函数的参数全为`null`时两者相同，都是使用Abot默认的构建方法。如果有自定义的插件则可以在调用复杂构造函数时引入，但不能在对象已被创建后替换。
+
+## 自定义爬虫
+
+Abot的爬虫由9个部件组成：配置、决策、线程管理、资源调度、页面请求、超链接解析、内存管理，还有robot.txt文件的处理机制。我认为Abot提供的几个默认组件已经能满足绝大多数用户的需求。出于不想跑题的理由，这里只详细谈一谈最重要的决策器。
+
+### 决策器
+
+这一定是每个写爬虫的人最关心的内容。开发者可以通过这个接口来决定爬哪些网页，抓取哪些内容，放弃哪些嵌套的链接以及何时需要重新抓取页面。
+
+{% codeblock lang:C# 自定义决策逻辑 %}
+public class CustomDecisionMaker : CrawlDecisionMaker, ICrawlDecisionMaker
+    {
+        public CrawlDecision ShouldCrawlPage(PageToCrawl pageToCrawl, CrawlContext crawlContext)
+        {
+            if (pageToCrawl.Uri.Authority == "google.com")
+            {
+                return new CrawlDecision { Allow = false, Reason = "爬到Google上不就等于把互联网爬了吗" };
+            }
+            return new CrawlDecision { Allow = true }; // 默认爬取所有网页
+        }
+
+        public CrawlDecision ShouldCrawlPageLinks(CrawledPage crawledPage, CrawlContext crawlContext)
+        {
+            if (!crawlContext.CrawlConfiguration.IsExternalPageLinksCrawlingEnabled && !crawledPage.IsInternal)
+            {
+                return new CrawlDecision { Allow = false, Reason = "不爬取外部链接" };
+            }
+            return new CrawlDecision { Allow = true };
+        }
+
+        public CrawlDecision ShouldDownloadPageContent(CrawledPage crawledPage, CrawlContext crawlContext)
+        {
+            if (crawledPage.HttpWebResponse.StatusCode != HttpStatusCode.OK)
+            {
+                return new CrawlDecision { Allow = false, Reason = "只爬取返回OK的网页" };
+            }
+            return new CrawlDecision { Allow = true };
+        }
+
+        // 使用默认决策
+        //public CrawlDecision ShouldRecrawlPage(CrawledPage crawledPage, CrawlContext crawlContext)
+        //{
+        //    if (crawledPage.WebException == null)
+        //    {
+        //        return new CrawlDecision { Allow = false, Reason = "无异常" };
+        //    }
+        //    return new CrawlDecision { Allow = true };
+        //}
+    }
+{% endcodeblock %}
+
+如果逻辑不复杂，开发者也可以通过植入的方式替换默认的决策逻辑。
+
+{% codeblock lang:C# 植入式修改决策逻辑 %}
+crawler.ShouldCrawlPage((pageToCrawl, crawlContext) => 
+{
+	if (pageToCrawl.Uri.Authority == "google.com")
+    {
+        return new CrawlDecision { Allow = false, Reason = "爬到Google上不就等于把互联网爬了吗" };
+    }
+    return new CrawlDecision { Allow = true }; // 默认爬取所有网页
+});
+{% endcodeblock %}
+
+### 其他的组件
+线程管理器负责多线程的逻辑，我认为使用配置参数来调整其行为足以满足大部分的需求了。
+
+资源管理器负责调度已被爬取和将要被爬取的页面的仓库。除非使用分布式的架构否则也不需要调整。
+
+页面请求器负责发送HTTP请求并下载其内容。如果有比较复杂的重定向或用户认证机制便需要重新编写这一类，但如果是常规逻辑则只需要调整配置参数（如使用明文登陆或系统证书等）。
+
+超链接解析器负责获取页面上的所有超链接并进行筛选。和决策器所不同的是，决策器掌管整个页面的决定，而解析器负责页面内的细节。
+
+内存管理负责统筹进程的内存占用，并在空间不够的情况下做出相应的对策。可以配合配置文件里的最大线程参数一起使用。
+
+最后，robot.txt处理器决定是否听从文件的指示，听从哪些等。一般用户使用默认的就可以。
+
+## 注册监听器
