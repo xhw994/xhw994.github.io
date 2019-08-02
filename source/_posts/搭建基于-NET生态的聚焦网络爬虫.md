@@ -16,8 +16,7 @@ tags:
 唉怎么又讲了一堆屁话，我明明只是想表达我有一些不想被爬虫看到的内容的。总之，和一切科技一样，爬虫这一概念是不带有善恶的标签的。通用的爬虫，如Google搜索引擎的前端，是不会在乎你我的喜悲的。它们只会遵循着繁复的规则，日复一日地构建互联网的索引。而如果你像我一样多愁善感，你可以编写一个在乎你的感受的爬虫，意即聚焦型网络爬虫。而这这就是本文的目的了。
 
 # 爬虫
-
-出于实验目的，这次我使用了.NET Core 2.0而不是一些包所声明的.NET 4.6.1。
+我选择使用.NET生态中人气最旺的Abot来完成这项任务。Abot爬虫由许多个小型的组件组成，拥有极高的可插拔性和可延伸性。它还使用了大量惰性初始化，最大化去掉了多余的运算，因此它的运行速度很快。可惜的是，由于维护人手的不足，Abot目前是不支持.NET Standard的。但如果不嫌麻烦的话稍微修改源代码再编译应该也不会很麻烦。
 
 首先创建一个空的.NET Core控制台程序，然后在NuGet包管理器中安装Abot（[源代码](https://github.com/sjdirect/abot)）。注意不是AbotX，那是Abot的商业版本。
 <center>![](/images/201907/1.png)</center>
@@ -90,7 +89,7 @@ Abot提供了三种不同的配置方法：配置文件、配置对象、或是�
 {% endcodeblock %}
 
 ### 使用配置对象
-创建一个`Abot.Poco.CrawlConfiguration`对象并修改其中的内容:
+创建一个`Abot.Poco.CrawlConfiguration`对象并修改其中的内容。.NET Core项目只能使用这一方式:
 
 {% codeblock lang:csharp %}
 CrawlConfiguration crawlConfig = new CrawlConfiguration
@@ -102,6 +101,7 @@ CrawlConfiguration crawlConfig = new CrawlConfiguration
 {% endcodeblock %}
 
 ### 配置文件与配置对象混用
+同样，这一方式只适用于.NET Framework。
 
 {% codeblock lang:csharp %}
 CrawlConfiguration crawlConfig = AbotConfigurationSectionHandler.LoadFromXml().Convert();
@@ -121,14 +121,24 @@ namespace SampleSearchEngine
   {
     private readonly PoliteWebCrawler _crawler;
     public Uri RootUrl { get; set; } = new Uri("https://github.com/");
-    // 储存结果的容器，SitePage包含一些页面的基本元素如标题、URL、内容等
-    public Dictionary<string, SitePage> Pages { get; private set; } = new Dictionary<string, SitePage>(); 
+    // 储存结果的容器，SitePage包含标题、URL、内容等页面基本元素
+    public Dictionary<string, SitePage> Pages { get; private set; } = new Dictionary<string, SitePage>();
+    private int _totalPages; // 统计所有找到的页面
+    private int _pagesCrawled; // 统计爬过的页面
 
     public Crawler()
     {
       _crawler = new PoliteWebCrawler(); // 简单构造
       // _crawler = new PoliteWebCrawler(crawlConfig, null, null, null, null, null, null, null, null); // 复杂构造
     }
+  }
+
+  [Serializable]
+  public class SitePage
+  {
+    public string Url { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
   }
 }
 {% endcodeblock %}
@@ -264,19 +274,17 @@ private void Crawler_ProcessPageCrawlCompleted(object sender, PageCrawlCompleted
     // Store page information
     Pages.Add(crawledPage.Uri.AbsoluteUri, new SitePage
     {
-      AbsoluteUri = crawledPage.Uri.AbsoluteUri,
+      Url = crawledPage.Uri.AbsoluteUri,
       Title = document.Title,
-      TextContent = TraverseDomGetContent(document.Body), // 进行一些自定义的页面处理
-      PageType = SitePageType.InternalHtml
+      Content = document.TextContent, // 进行一些自定义的页面处理
     });
-    _logger.Info($"Add {crawledPage.Uri.AbsoluteUri} to result.");
     _pagesCrawled++;
   }
 }
 {% endcodeblock %}
 
 ### 禁止爬取页面
-这一事件触发于被禁止获取页面内容后，需要配合robot.txt处理机制和决定器一起使用。
+这一事件触发于被禁止获取页面内容后，可以配合robot.txt处理机制和决定器一起使用。
 
 {% codeblock lang:csharp %}
 private void Crawler_PageCrawlDisallowed(object sender, PageCrawlDisallowedArgs e)
@@ -330,6 +338,61 @@ private string TraverseDomGetContent(IElement node)
   // Else return the content of children.
   string content = childrenJoin == string.Empty ? node.TextContent.Trim(trimmedCharacters) : childrenJoin.Trim();
   return string.IsNullOrEmpty(content) ? null : content;
+}
+{% endcodeblock %}
+
+## 运行
+一切准备完毕后，
+
+
+{% codeblock lang:csharp %}
+public void Run()
+{
+  CrawlResult result = _crawler.Crawl(RootUrl); // 注意此为同步任务，且必须同步
+
+  if (result.ErrorOccurred)
+  {
+    _logger.Error($"Crawl of {result.RootUri.AbsoluteUri} completed with error: {result.ErrorException.Message}");
+  }
+  else
+  {
+    _logger.Info($"Crawl of {result.RootUri.AbsoluteUri} completed.");
+    _logger.Info($"Total pages founded: {_totalPages}. Pages crawled:{_pagesCrawled}.");
+
+#if DEBUG
+    ExportToJson(Pages);
+#else
+    ExportToDatabase(Pages);
+#endif
+  }
+}
+
+private void ExportToJson(Dictionary<string, SitePage> pages)
+{
+  string fileName = "output.json";
+  string content = JsonConvert.SerializeObject(Pages);
+  File.WriteAllText(fileName, content);
+  _logger.Info($"Wrote to {Path.GetFullPath(Directory.GetCurrentDirectory() + '\\' + fileName)}");
+}
+
+private void ExportToDatabase(Dictionary<string, SitePage> pages)
+{
+  try
+  {
+    _entities.SitePages.AddOrUpdate(pages.Values.ToArray());
+    _entities.SaveChanges();
+  }
+  catch (DbEntityValidationException ex)
+  {
+    foreach (var err in ex.EntityValidationErrors)
+    {
+      foreach (var subErr in err.ValidationErrors)
+      {
+        _logger.Error($"Validation failed for property {subErr.PropertyName} because {subErr.ErrorMessage}.");
+      }
+    }
+  }
+  _logger.Info("Wrote to database.");
 }
 {% endcodeblock %}
 
