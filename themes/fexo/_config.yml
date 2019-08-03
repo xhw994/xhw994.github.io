@@ -18,13 +18,16 @@ home_nav:
     target_blank: false #不在新页面打开
   - name: Project
     url: /project/
-    target_blank: true #在新页面打开
+    target_blank: false #在新页面打开
   - name: Github
     url: https://github.com/xhw994
     target_blank: true
   - name: LinkedIn
     url: https://www.linkedin.com/in/xinhao-wang-299b46105/
     target_blank: true
+  - name: About
+    url: /about/
+    target_blank: false #不在新页面打开
 
 # config page nav
 page_nav:
