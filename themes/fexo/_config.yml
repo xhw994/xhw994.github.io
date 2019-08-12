@@ -18,13 +18,16 @@ home_nav:
     target_blank: false #不在新页面打开
   - name: Project
     url: /project/
-    target_blank: true #在新页面打开
+    target_blank: false #在新页面打开
   - name: Github
     url: https://github.com/xhw994
     target_blank: true
   - name: LinkedIn
     url: https://www.linkedin.com/in/xinhao-wang-299b46105/
     target_blank: true
+  - name: About
+    url: /about/
+    target_blank: false #不在新页面打开
 
 # config page nav
 page_nav:
@@ -67,7 +70,7 @@ search_slogan:
 
 link_slogan:
   isShow: true # true|fase
-  text: 交换友链请邮件 wxh960302@gmail.com
+  text: 交换友链请邮件 xegnal@outlook.com
 
 
 # set backtop show or hide
@@ -182,13 +185,13 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "Dylan也好，Chris也好，Xeon或是Shion也好，随意称呼我就行。我喜欢有很多个名字的感觉。当然，如果你认识我在其他地方的名字，也可以用那边的称呼。"
-    - "现居温哥华的软件工程师，主攻泛后端开发和数据科学。如果你想了解更多或是想要我的简历，欢迎发电邮给我。"
+    - "我喜欢在不同的场合拥有不同的名字，所以请允许我自称Xeon。"
+    - "现居温哥华的软件工程师，主攻泛后端开发和数据科学。"
     - "我会讲汉语、英语、日语、法语、以及德语，同时也是中文语言历史和心理语言学的业余爱好者。"
-    - "如果不是因为没有艺术细胞，我会去报考建筑和园林设计或是室内设计。"
-    - "居家厨子，只做中餐。除了太辣的中餐都能吃，最喜欢的菜是过油肉。非中餐都可以吃一吃，没什么忌口。不想学的原因是外国菜的家常菜没有中餐好吃。"
-    - "喜欢星空，喜欢登山、慢跑和羽毛球。"
-    - "夜猫子，人生中超过一半的时间在2:00后入睡，近几年甚至会有6:00~10:00入睡的情况。嗯，的确是有点过分了:)"
+    - "如果不是因为没有艺术细胞，我会去报考建筑、园林或是室内设计。"
+    - "各国的饭菜除了太辣的都能吃，最喜欢的菜是老家的山西过油肉。做饭只做中餐。"
+    - "喜欢星空，喜欢登山、慢跑和羽毛球，讨厌健身。"
+    - "夜猫子，人生中超过一半的时间在2:00后入睡，大学时甚至会有6:00~10:00入睡的情况。嗯，的确是有点过分了:)"
   - type: Github
     icon: icon-github
     text_key: Github
@@ -196,8 +199,8 @@ about:
     text_value_url: https://github.com/xhw994
   - type: mail
     icon: icon-mail
-    text_key: Gmail
-    text_value: "wxh960302@gmail.com"
+    text_key: Outlook
+    text_value: "xegnal@outlook.com"
   - type: location
     icon: icon-location
     text_value: Vancouver, BC, Canada
