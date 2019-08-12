@@ -202,7 +202,7 @@ crawler.ShouldCrawlPage((pageToCrawl, crawlContext) =>
 {
 	if (pageToCrawl.Uri.Authority == "google.com")
     {
-      return new CrawlDecision { Allow = false, Reason = "爬到Google上不就等于把互联网爬了吗" };
+      return new CrawlDecision { Allow = false, Reason = "不爬取没用的" };
     }
     return new CrawlDecision { Allow = true }; // 默认爬取所有网页
 });
@@ -305,7 +305,7 @@ private void Crawler_PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisal
 {% endcodeblock %}
 
 ## 提取DOM内所有的文字信息
-由于我的最终目的是要做一个全文字搜索引擎，我需要提取出HTML页面中所有的文字信息。然而我用到的`AngleSharp`HTML解析器不但会提取出有用的文字信息，还会提取出`<script>`、`<style>`标签中的JavaScript和CSS代码...这设计的也太蠢了。于是我只好自己写一个。逻辑不难懂，具体可以看代码，但想出这个方案前真是走了不少弯路。
+由于我的最终目的是要做一个全文字搜索引擎，我需要提取出HTML页面中所有的文字信息。然而我用到的`AngleSharp`HTML解析器不但会提取出有用的文字信息，还会提取出`<script>`、`<style>`标签中的JavaScript和CSS代码...这设计的也太蠢了。于是我只好自己写一个。逻辑不难懂，就是个回溯法。但在彻底理解DOM的定义前走了不少弯路。
 
 {% codeblock lang:csharp %}
 private readonly IEnumerable<string> filteredTags = new string[]
