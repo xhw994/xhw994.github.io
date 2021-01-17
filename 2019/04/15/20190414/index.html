@@ -19,19 +19,19 @@
 <meta name="keywords" content="算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="和密码库泄露的斗争">
-<meta property="og:url" content="https://xegnal.com/2019/04/14/20190414/index.html">
+<meta property="og:url" content="https://xhw994.github.io/2019/04/15/20190414/index.html">
 <meta property="og:site_name" content="Xegnal">
 <meta property="og:description" content="要防弱密码，也要防数据库。但主要还是防数据库。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;任何一个程序员，哪怕是软件工程的初学者，都应该清楚创建一个坚不可摧的密码的重要性。事实上，随着学习的深入，这四年内我的通用密码也已经改变了两次，并且对于那些使用一次后再也不需要访问的网站，我也开始使用Keeper或是Google的随机密码服务了。但强大的密码并不能让我高枕无忧，因为">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://xegnal.com/2019/04/14/20190414/1.jpg">
-<meta property="og:image" content="https://xegnal.com/2019/04/14/20190414/2.jpg">
-<meta property="og:image" content="https://xegnal.com/2019/04/14/20190414/3.jpg">
-<meta property="og:image" content="https://xegnal.com/2019/04/14/20190414/4.jpg">
-<meta property="og:updated_time" content="2019-08-12T17:34:34.601Z">
+<meta property="og:image" content="https://xhw994.github.io/2019/04/15/20190414/1.jpg">
+<meta property="og:image" content="https://xhw994.github.io/2019/04/15/20190414/2.jpg">
+<meta property="og:image" content="https://xhw994.github.io/2019/04/15/20190414/3.jpg">
+<meta property="og:image" content="https://xhw994.github.io/2019/04/15/20190414/4.jpg">
+<meta property="og:updated_time" content="2021-01-17T06:44:11.049Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="和密码库泄露的斗争">
 <meta name="twitter:description" content="要防弱密码，也要防数据库。但主要还是防数据库。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;任何一个程序员，哪怕是软件工程的初学者，都应该清楚创建一个坚不可摧的密码的重要性。事实上，随着学习的深入，这四年内我的通用密码也已经改变了两次，并且对于那些使用一次后再也不需要访问的网站，我也开始使用Keeper或是Google的随机密码服务了。但强大的密码并不能让我高枕无忧，因为">
-<meta name="twitter:image" content="https://xegnal.com/2019/04/14/20190414/1.jpg">
+<meta name="twitter:image" content="https://xhw994.github.io/2019/04/15/20190414/1.jpg">
 
   
 
@@ -215,14 +215,14 @@ ga('send', 'pageview');
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我已经忘了第一次被盗用的情况了，能追溯的最早的是QQ号和VIP邮箱的盗用。某一段时间某个缺德份子在我的QQ空间里上传了大量的情色广告图片，但出人意料的是，他没有顺走我拿来养QQ宠物的Q币以及云盘（当时还不叫这个名字）里的敏感文件。真是一个有职业道德的人。后来我的VIP邮箱也被盗用了。缺德份子用我的账户信息在其他网站上进行了碰撞测试，并成功登陆了我的台服战网和一个我忘记我注册过的Steam账号。虽然没有造成太大的影响，但总归是心里面一根刺。雪上加霜的是，腾讯是不允许人工删除QQ号的。哪怕5年没有登陆我的QQ账号都没有被系统注销，更不用说VIP邮箱了。对它们我就只好不理不问。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么我的密码是腾讯泄露的吗？QQ号我不知道，那是太久之前的事儿了，但VIP邮箱的泄露是有迹可循的。这里要感谢Youtube上 <a href="https://www.youtube.com/user/Computerphile/" target="_blank" rel="noopener">Computerphile</a> 频道提供的网站 <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">have i been pwned</a>（HIBP），它提供了快捷且安全的用户界面和API用来查询数据库泄露。</p>
 <h2 id="使用HIBP查验邮箱"><a href="#使用HIBP查验邮箱" class="headerlink" title="使用HIBP查验邮箱"></a>使用HIBP查验邮箱</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在HIBP主界面键入邮箱，它很快便告诉我这次泄露的罪魁祸首是网易。</p>
-<center><img src="/2019/04/14/20190414/1.jpg" title="This is an image"></center>
+<center><img src="/2019/04/15/20190414/1.jpg" title="This is an image"></center>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这件事我当时在微博上也有耳闻，但并没有想过太多，因为我本以为我没有用过网易服务的。我对着这个结果想了很久才意识到：十几年前，在我小学二年级的时候，我玩过《梦幻西游》，那是一款网易出品的游戏。当年的我还用零花钱买了将军令，也就是专门为《梦幻西游》开发的电子密保设备，这足可以看出我在小学就已经有一定的网络安全意识了。但又能如何呢？问题不是出在我身上，但泄露还是发生了。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据链接的<a href="http://news.mydrivers.com/1/452/452173.htm" target="_blank" rel="noopener">国内新闻</a>，这次发生在2015年的泄露总共包含五亿多条数据信息，包含用户名、MD5加密的密码、密码提示问题和答案、以及注册的IP和生日等。而HIBP官方给出的详细数据和新闻有相当的<a href="https://www.troyhunt.com/handling-chinese-data-breaches-in-have-i-been-pwned/" target="_blank" rel="noopener">出入</a>：约有两亿三千万账户被拖库，且泄露的信息包含明文密码。且不说MD5的密码已经可以被轻松<a href="https://www.md5online.org/md5-decrypt.html" target="_blank" rel="noopener">暴力破解</a>，就凭HIBP给出的数据更为详实这一点我就愿意相信我的明文密码已经被泄露了。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;测试其他邮箱的结果也令我失望：<a href="https://www.troyhunt.com/adobe-credentials-and-serious/" target="_blank" rel="noopener">Adobe</a>，<a href="https://www.nexusmods.com/games/news/12670/" target="_blank" rel="noopener">Nexus Mod</a>都泄露过我的用户信息。其中Nexus只泄露了加盐的密码，而Adobe因为加密方式太过幼稚完全可以看作是明文泄露。</p>
 <h2 id="使用HIBP查验密码"><a href="#使用HIBP查验密码" class="headerlink" title="使用HIBP查验密码"></a>使用HIBP查验密码</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;泄露邮箱已经是件大事了，但明文密码的泄露要更加严峻。很多人一生只用一个弱密码，如果这个密码被泄露了那他所有的信息都玩儿完了。我虽然有一定的安全意识，但让我给每个服务都设置一个独立且能记住的密码也是不现实的。我的方法不过是牢记三种独特的密码，再根据网站名添加特殊符号罢了。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HIBP提供了查验密码的用户界面和API。这里我使用用户界面来查询我的QQ密码：</p>
-<center><img src="/2019/04/14/20190414/2.jpg" title="This is an image"></center>
+<center><img src="/2019/04/15/20190414/2.jpg" title="This is an image"></center>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结果残酷到让我想拿块豆腐撞死。其实我很想在这里写下我的密码的，但因为我的密保手机号处在冻结状态，我没办法更改我的QQ密码，因此只能作罢。如果用一句话来形容的话，那是一个看上去很酷也很安全，但仔细一想一定有无数人用过的密码。虽然我已经不用了但里面仍然有一些没清干净的信息，如果你们有人猜到那是什么密码的话还请手下留情。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查验其他密码的结果令我欣慰：我的三种密码和十几种变体没有任何一个被明文泄露过。这虽然不代表它们就一定是牢不可破的，但至少我现在不需要担忧过多。</p>
@@ -237,10 +237,10 @@ ga('send', 'pageview');
 </blockquote>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我收到这500多个哈希后，只需要搜索自己的哈希值是否存在在这一串返回值里就可以判断我的密码是否被盗用了，并且因为HIBP采用了固定的<code>k</code>值，数据库索引非常有效，所以整个流程毫不费时。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用Postman模拟这一过，我得到了527个结果。每一条都代表着一个截取掉头5位的哈希值：</p>
-<center><img src="/2019/04/14/20190414/3.jpg"></center>
+<center><img src="/2019/04/15/20190414/3.jpg"></center>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜寻哈希值的后35位<code>2DC183F740EE76F27B78EB39C8AD972A757</code>，可知<code>P@ssw0rd</code>这个密码在所有已知的数据库泄露中共出现五万余次——不愧是非常差的密码。而从它的“前辈”<code>password</code>“仅仅”被泄露了三百多万次这一点可以看出使用Leet文字修饰密码这一方法也不能保证有效。</p>
-<center><img src="/2019/04/14/20190414/4.jpg"></center>
+<center><img src="/2019/04/15/20190414/4.jpg"></center>
 
 <h1 id="简易终端"><a href="#简易终端" class="headerlink" title="简易终端"></a>简易终端</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;某些密码管理软件（如<a href="https://1password.com/" target="_blank" rel="noopener">1password</a>）默认使用HIBP来探测潜在的风险。但那些不使用密码管理软件，或者是用Chrome自带密码管理软件的人（比如我）也有查验密码的需求。所以我需要一个能快速查询大量密码的脚本：</p>
 <figure class="highlight python"><figcaption><span>查询脚本，支持csv和txt文件</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># Send GET request to HIBP API</span></span><br><span class="line"><span class="comment"># to check if the given password has been pwnd</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_one</span><span class="params">(p)</span>:</span></span><br><span class="line">    api = <span class="string">'https://api.pwnedpasswords.com/range/'</span></span><br><span class="line">    <span class="comment"># HIBP stores password with SHA-1 in uppercase</span></span><br><span class="line">    h = hl.sha1(p.encode(<span class="string">'utf-8'</span>)).hexdigest().upper()</span><br><span class="line">    <span class="comment"># k-Anonymity, k=5</span></span><br><span class="line">    r = req.get(api + h[:<span class="number">5</span>])</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> req.get(api + h[:<span class="number">5</span>]).text.split(<span class="string">'\r\n'</span>):</span><br><span class="line">        <span class="keyword">if</span> h[<span class="number">5</span>:] <span class="keyword">in</span> line:</span><br><span class="line">            <span class="comment"># Return breakage count</span></span><br><span class="line">            <span class="keyword">return</span> int(line.split(<span class="string">':'</span>)[<span class="number">1</span>])</span><br><span class="line">    <span class="comment"># Safe password</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">fname = sys.argv[<span class="number">1</span>]</span><br><span class="line">df = pd.read_csv(fname)</span><br><span class="line"><span class="comment"># Format dataframe if input is a text file</span></span><br><span class="line"><span class="keyword">if</span> fname.endswith(<span class="string">'.txt'</span>):</span><br><span class="line">    df.columns = [<span class="string">'password'</span>]</span><br><span class="line"><span class="comment"># Group by password to reduce the number of requests</span></span><br><span class="line">dfg = df.groupby(<span class="string">'password'</span>)</span><br><span class="line"></span><br><span class="line">flag = <span class="literal">False</span></span><br><span class="line"><span class="comment"># Iterate through all passwords</span></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> dfg.groups.keys():</span><br><span class="line">    t = check_one(name)</span><br><span class="line">    <span class="keyword">if</span> (t &gt; <span class="number">0</span>): <span class="comment"># Bad password</span></span><br><span class="line">        flag = <span class="literal">True</span></span><br><span class="line">        print(<span class="string">"'&#123;&#125;' has been compromised &#123;&#125; times!"</span>.format(name, t))</span><br><span class="line">        <span class="comment"># Print more information if given a Chrome export</span></span><br><span class="line">        <span class="keyword">if</span> (fname.endswith(<span class="string">'.csv'</span>)):</span><br><span class="line">            g = dfg.get_group(name)[[<span class="string">'name'</span>,<span class="string">'username'</span>]].rename(columns=&#123;<span class="string">'name'</span>:<span class="string">'website'</span>&#125;)</span><br><span class="line">            g.index = [<span class="string">''</span>] * len(g)</span><br><span class="line">            print(<span class="string">"It has been used in the following websites:"</span>)</span><br><span class="line">            print(g)</span><br><span class="line">            print(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># All passwords pass the test, amazing!</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> flag:</span><br><span class="line">    print(<span class="string">"Wow, such good passwords"</span>)</span><br></pre></td></tr></table></figure>
@@ -274,7 +274,7 @@ ga('send', 'pageview');
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2019/04/13/20190413/">
+    <a class="show pull-left" href="/2019/04/14/20190413/">
         <i class="icon icon-angle-left"></i>
     </a>
     <a class="show pull-right" href="/2019/07/29/20190729/">
