@@ -18,13 +18,13 @@ home_nav:
     target_blank: false #不在新页面打开
   - name: Project
     url: /project/
-    target_blank: false #在新页面打开
+    target_blank: false #不在新页面打开
   - name: Github
     url: https://github.com/xhw994
-    target_blank: true
+    target_blank: true #在新页面打开
   - name: LinkedIn
-    url: https://www.linkedin.com/in/xinhao-wang-299b46105/
-    target_blank: true
+    url: https://www.linkedin.com/in/dylan-wang-299b46105/
+    target_blank: true #在新页面打开
   - name: About
     url: /about/
     target_blank: false #不在新页面打开
@@ -185,13 +185,7 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "我喜欢在不同的场合拥有不同的名字，所以请允许我自称Xeon。"
-    - "现居温哥华的软件工程师，主攻泛后端开发和数据科学。"
-    - "我会讲汉语、英语、日语、法语、以及德语，同时也是中文语言历史和心理语言学的业余爱好者。"
-    - "如果不是因为没有艺术细胞，我会去报考建筑、园林或是室内设计。"
-    - "各国的饭菜除了太辣的都能吃，最喜欢的菜是老家的山西过油肉。做饭只做中餐。"
-    - "喜欢星空，喜欢登山、慢跑和羽毛球，讨厌健身。"
-    - "夜猫子，人生中超过一半的时间在2:00后入睡，大学时甚至会有6:00~10:00入睡的情况。嗯，的确是有点过分了:)"
+    - 另一个程序员
   - type: Github
     icon: icon-github
     text_key: Github
@@ -200,7 +194,7 @@ about:
   - type: mail
     icon: icon-mail
     text_key: Outlook
-    text_value: "xegnal@outlook.com"
+    text_value: "xegnal^outlook.cm"
   - type: location
     icon: icon-location
     text_value: Vancouver, BC, Canada
@@ -212,6 +206,10 @@ link:
     avatar: https://66.media.tumblr.com/77e97058b749cf78bea0a3a9488a367f/tumblr_inline_nuhpv7cLm21sj7j3d_1280.png
 
 project:
+  - type: personal
+    name: PecoReader (Private)
+    url: https://github.com/xhw994/peco-reader
+    intro: UWP multi-support book reader.
   - type: personal
     name: Bangumi.Api.Core
     url: https://github.com/xhw994/Bangumi.Api.Core
